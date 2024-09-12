@@ -1,0 +1,69 @@
+// Declarando as variáveis
+float tempo;        // A variável tempo recebe o tempo que o som demora para ir e voltar.
+float distancia = 0;  // Declarando a variável que vai receber a distância
+int trig = 9;
+int echo = 10;
+int ver = 11;
+int verm = 13;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(trig, OUTPUT);  //Informando que o pino é de saída
+  pinMode(echo, INPUT);   //Informando que o pino é de entrada
+  pinMode (verm, OUTPUT);
+  pinMode (ver, OUTPUT);
+ }
+
+void loop() {
+  
+  digitalWrite(trig, LOW);          //Desligando o envio de som
+  delayMicroseconds(2);             //Tempo que vai ficar desligado
+  digitalWrite (trig, HIGH);        //Liga o envio de som
+  delayMicroseconds(10);            //Tempo que vai ficar ligado
+  digitalWrite (trig, LOW);         //Desligando o envio de som
+  
+  tempo=pulseIn(echo, HIGH);        // A variável "TEMPO" recebe o tempo que o som demora para ir e voltar de um obstaculo
+  
+  //Como o tempo está dobrado, pois é o tempo de ir e voltar, dividimos por 2
+  //Velocidade do som aproximadamente 0.0343 centimetro por microsegundos
+  distancia= (tempo/2)*0.0343 ;   
+  
+  // Se a distância for menor que 10cm os três LED pisca
+  if (distancia<=10){
+    digitalWrite (verm, HIGH);
+    digitalWrite (ver, HIGH);
+    delay(1000);
+    
+    digitalWrite (verm, LOW);
+    digitalWrite (ver, LOW);
+    delay (1000);
+    
+  }else{
+    digitalWrite (verm, LOW);
+    digitalWrite (ver, LOW);
+  }
+  
+  //Se a distância for entre 10 a 30 cm todos os LED acende  
+  if (distancia>10 && distancia<=30){
+    digitalWrite (verm, HIGH);
+    digitalWrite (ver, HIGH);
+    delay(1000);
+  }
+  
+  //Se a distância for entre 30 a 70 cm o LED amarelo e verde acende
+  if (distancia>30 && distancia<70){
+    digitalWrite(ver, HIGH);
+    delay(1000);
+  }else{
+    digitalWrite(verm, LOW);
+  }
+  
+  // Se a distância for maior que 70 cm o LED verde acende 
+  if (distancia>=70){
+    digitalWrite(ver, HIGH);
+    delay(1000);
+  } else{
+    digitalWrite(verm, LOW);
+  }
+    
+}
