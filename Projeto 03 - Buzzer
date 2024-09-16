@@ -1,0 +1,27 @@
+//Código em C
+
+
+//VARIÁVEIS
+void setup()
+{
+    pinMode(6, INPUT);
+    pinMode(13, OUTPUT);
+    pinMode(9, OUTPUT);
+}
+
+//Função
+void loop()
+{
+    int movimento = digitalRead(6);
+    
+    if (movimento) 
+    {
+      digitalWrite(9, HIGH);
+      digitalWrite(13, HIGH);
+      delay(2000);
+      
+    } else 
+    {
+          digitalWrite(9, LOW);
+          digitalWrite(13, LOW);
+    }
